@@ -76,6 +76,23 @@ Outputs (KPI CSV, 3 charts, insights) land in `outputs/`.
 - **Gemini / Vertex AI** → a GenAI follow-up (auto-summarize ticket themes)
   maps to `Develop GenAI Apps with Gemini and Streamlit`.
 
+## Deploy the demos (Streamlit Community Cloud — free, public URL)
+1. Go to https://share.streamlit.io and **Sign in with GitHub** (`sakti23-lab`).
+2. Click **New app** → select repo `sakti23-lab/customer-care-ops`, branch `master`.
+3. **Main file path**: `app/rag_app.py` (RAG Assistant) or `app/ticket_insight_app.py`
+   (ticket insight). Click **Deploy**.
+4. After deploy, open **App settings (⋯) → Secrets** and paste:
+   ```toml
+   GEMINI_API_KEY = "YOUR_GEMINI_KEY"
+   ```
+   Streamlit injects this as an environment variable, which `rag.py` /
+   `summarize.py` already read via `os.environ.get("GEMINI_API_KEY")`.
+   With a key the apps switch from the local fallback to **live Gemini**
+   (`text-embedding-004` for RAG retrieval, `gemini-2.0-flash` for generation).
+5. Share the resulting `https://xxx.streamlit.app` URL in your CV / portfolio.
+
+Without a key the apps still run (local fallback), so the demo is always live.
+
 ## Key results (from the synthetic run)
 - ~5,800 tickets over 6 months; avg resolution ~17h; FCR <24h ~68%; CSAT 4.0/5.
 - Largest category = Booking Change; lowest CSAT = Complaint (clear fix target).
