@@ -43,15 +43,28 @@ app is always demonstrable (verified: produced a correct brief on 5,305 tickets)
 - **Why it matters:** maps directly to the Trinusa JD — "explore how LLM
   applications can enhance the efficiency of customer care."
 
+## Project 4 — Customer-Care RAG Assistant (Gemini + Vector retrieval)
+A **Retrieval-Augmented Generation** chatbot over the support knowledge base
+(`data/knowledge_base.csv`). It retrieves the most relevant FAQ entries
+(local TF-IDF, or Gemini `text-embedding-004` when a key is set) and grounds the
+answer in them — the same pattern as **Vertex AI Vector Search + Gemini** in
+production. Proves the *Engineer AI Agents with ADK / Gemini Enterprise* badges.
+
+- Run: `streamlit run app/rag_app.py` (set `GEMINI_API_KEY` for live generative answers)
+- **Why it matters:** demonstrates an end-to-end LLM product (retrieve → ground →
+  generate) — the strongest signal of applied AI skill for a data/AI role.
+
 ## Reproduce locally
 ```bash
 cd customer-care-ops
 python -m venv .venv && . .venv/bin/activate
-pip install pandas matplotlib statsmodels streamlit google-generativeai
+pip install pandas matplotlib statsmodels numpy streamlit google-generativeai
 python data/generate_dataset.py
 python analysis/analyze.py
 python analysis/forecast.py
-# optional: streamlit run app/ticket_insight_app.py  (set GEMINI_API_KEY for live LLM)
+# optional demos:
+#   streamlit run app/ticket_insight_app.py
+#   streamlit run app/rag_app.py
 ```
 Outputs (KPI CSV, 3 charts, insights) land in `outputs/`.
 
