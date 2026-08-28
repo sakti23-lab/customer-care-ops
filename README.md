@@ -21,13 +21,25 @@ time, and CSAT by category/segment/channel — so improvement effort is guesswor
 | Dashboard spec | Looker Studio / Tableau | `dashboard/looker_spec.md` |
 | Insight narrative | Markdown | `outputs/INSIGHTS.md` |
 
+## Project 2 — Ticket Volume Forecasting (BigQuery ML)
+Predicts next-30-day ticket volume so the care team can staff ahead. The
+**production model is ARIMA_PLUS on BigQuery** (`sql/forecast_bqml.sql`, proving
+the *Create ML Models with BigQuery ML* badge); a local `statsmodels` replica
+(`analysis/forecast.py`) reproduces it for reproducibility.
+
+- **Result (local replica):** 30-day forecast **MAPE 11.7%**; next-7-day volume
+  ≈ 28–37 tickets/day (weekend peaks). Chart: `outputs/chart_forecast.png`.
+- **Cloud mapping:** same `ARIMA_PLUS` query runs unchanged on BigQuery against
+  `ticket_volume_daily`; `ML.EVALUATE` returns in-sample fit diagnostics.
+
 ## Reproduce locally
 ```bash
 cd customer-care-ops
 python -m venv .venv && . .venv/bin/activate
-pip install pandas matplotlib
+pip install pandas matplotlib statsmodels
 python data/generate_dataset.py
 python analysis/analyze.py
+python analysis/forecast.py
 ```
 Outputs (KPI CSV, 3 charts, insights) land in `outputs/`.
 
